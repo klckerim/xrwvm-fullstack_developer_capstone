@@ -5,7 +5,7 @@ import Header from '../Header/Header';
 
 const Login = ({ onClose }) => {
 
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [open,setOpen] = useState(true)
 
@@ -20,14 +20,14 @@ const Login = ({ onClose }) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "userName": userName,
+            "username": username,
             "password": password
         }),
     });
     
     const json = await res.json();
     if (json.status != null && json.status === "Authenticated") {
-        sessionStorage.setItem('username', json.userName);
+        sessionStorage.setItem('username', json.username);
         setOpen(false);        
     }
     else {
