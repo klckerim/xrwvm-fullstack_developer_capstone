@@ -1,68 +1,348 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <!-- Link the style sheet here -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us | Dealerships</title>
+
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+
+  <style>
+    :root{
+      --brand: #0ea5a8;       /* teal */
+      --brand-dark:#0b7f82;
+      --ink:#0f172a;          /* slate-900 */
+      --muted:#475569;        /* slate-600 */
+      --soft:#f8fafc;         /* slate-50 */
+      --card:#ffffff;
+      --border: rgba(15, 23, 42, 0.12);
+    }
+
+    body{
+      background: linear-gradient(180deg, #ecfeff 0%, #ffffff 40%, #ffffff 100%);
+      color: var(--ink);
+    }
+
+    /* Navbar tweaks */
+    .app-navbar{
+      background: linear-gradient(90deg, var(--brand) 0%, #22c1c3 45%, #4dd4d6 100%);
+      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
+      min-height: 84px;
+    }
+    .app-navbar .navbar-brand{
+      font-weight: 800;
+      letter-spacing: .2px;
+      color: #062d2e !important;
+    }
+    .app-navbar .nav-link{
+      font-weight: 600;
+      color: rgba(6,45,46,.85) !important;
+      border-radius: 10px;
+      padding: .55rem .85rem;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .app-navbar .nav-link:hover{
+      background: rgba(255,255,255,.35);
+      transform: translateY(-1px);
+    }
+    .app-navbar .nav-link.active{
+      background: rgba(255,255,255,.55);
+      color: #062d2e !important;
+    }
+
+    /* Page shell */
+    .page-wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 16px 60px;
+    }
+
+    /* Hero / header */
+    .about-hero{
+      background: radial-gradient(1200px 300px at 10% 10%, rgba(34,193,195,.35), transparent 60%),
+                  radial-gradient(900px 240px at 90% 30%, rgba(14,165,168,.25), transparent 55%),
+                  linear-gradient(180deg, #ffffff 0%, #f0fdff 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+      position: relative;
+    }
+    .about-hero h1{
+      font-weight: 900;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .about-hero p{
+      color: var(--muted);
+      margin-bottom: 0;
+      line-height: 1.65;
+      max-width: 70ch;
+    }
+    .pill-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(14,165,168,.10);
+      border: 1px solid rgba(14,165,168,.20);
+      color: #064e51;
+      font-weight: 700;
+      font-size: .92rem;
+    }
+    .pill .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 0 4px rgba(14,165,168,.15);
+    }
+
+    /* Section title */
+    .section-title{
+      margin: 28px 4px 14px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .section-subtitle{
+      margin: 0 4px 18px;
+      color: var(--muted);
+    }
+
+    /* Cards */
+    .team-grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .team-card{
+      grid-column: span 12;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15,23,42,.06);
+      overflow: hidden;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .team-card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 16px 45px rgba(15,23,42,.10);
+    }
+    .team-card .top{
+      display: flex;
+      gap: 14px;
+      padding: 16px;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(14,165,168,.08), rgba(14,165,168,0));
+    }
+    .avatar{
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid rgba(15,23,42,.10);
+      background: #ffffff;
+    }
+    .team-meta{
+      flex: 1;
+      min-width: 0;
+    }
+    .team-name{
+      font-weight: 900;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .team-role{
+      margin: 4px 0 0;
+      color: #0b7f82;
+      font-weight: 800;
+      font-size: .95rem;
+    }
+    .team-card .body{
+      padding: 0 16px 16px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .contact-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    .contact-chip{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,.10);
+      background: #fff;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .contact-chip small{
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .contact-chip:hover{
+      border-color: rgba(14,165,168,.35);
+      box-shadow: 0 10px 20px rgba(14,165,168,.10);
+    }
+
+    /* Responsive layout */
+    @media (min-width: 768px){
+      .team-card{ grid-column: span 6; }
+      .about-hero{ padding: 34px 32px; }
+    }
+    @media (min-width: 992px){
+      .team-card{ grid-column: span 4; }
+    }
+
+    /* Footer note */
+    .footer-note{
+      margin-top: 26px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px dashed rgba(15,23,42,.18);
+      background: rgba(248,250,252,.7);
+      color: var(--muted);
+    }
+    .footer-note strong{ color: var(--ink); }
+  </style>
 </head>
-<div>
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
-    <div class="container-fluid">
-      <h2 style="padding-right: 5%;">Dealerships</h2>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light app-navbar">
+    <div class="container-fluid px-3 px-md-4">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <span style="display:inline-flex;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.55);align-items:center;justify-content:center;border:1px solid rgba(6,45,46,.18);font-weight:900;">
+          D
+        </span>
+        <span>Dealerships</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+              aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" style="font-size: larger;" aria-current="page" href="/">Home</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" style="font-size: larger;" href="/about">About Us</a>
+            <a class="nav-link active" aria-current="page" href="/about">About Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="font-size: larger;" href="/contact">Contact Us</a>
+            <a class="nav-link" href="/contact">Contact Us</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  
-    <div class="card" style="width: 80%;margin: auto; margin-top:5%;">
-      <div class="banner" name="about-header">
-      <!-- Insert header information here -->
-      </div>
-      <div style="display: flex;flex-direction: row; margin:auto">
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="/static/person.png" alt="Card image">
-        <div class="card-body">
-          <p class="title">Person1</p>
-          <p>Person1 Title</p>
-          <p class="card-text">Some text that explains the person1 in about 2 short sentences</p>
-          <p>person1@example.com</p>
-        </div>
-      </div>
 
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="/static/person.png" alt="Card image">
-        <div class="card-body">
-          <p class="title">Person2</p>
-          <p>Person2 Title</p>
-          <p class="card-text">Some text that explains the person2 in about 2 short sentences</p>
-          <p>person2@example.com</p>
-        </div>
-      </div>
+  <main class="page-wrap">
+    <section class="about-hero" name="about-header">
+      <h1>About Dealerships</h1>
+      <p>
+        We’re a modern dealership group focused on one thing: helping you find a car you’ll actually enjoy living with.
+        Transparent pricing, curated inventory, and support that doesn’t disappear the moment you sign the papers.
+      </p>
 
-      <div class="card" style="width: 30%;">
-        <img class="card-img-top" src="/static/person.png" alt="Card image">
-        <div class="card-body">
-          <p class="title">Person3</p>
-          <p>Person3 Title</p>
-          <p class="card-text">Some text that explains the person3 in about 2 short sentences</p>
-          <p>person3@example.com</p>
-        </div>
+      <div class="pill-row" aria-label="Highlights">
+        <span class="pill"><span class="dot"></span>Transparent pricing</span>
+        <span class="pill"><span class="dot"></span>Certified inspections</span>
+        <span class="pill"><span class="dot"></span>Trade-in support</span>
+        <span class="pill"><span class="dot"></span>Financing guidance</span>
       </div>
-    </div>
-    </div>
-    </div>
-    
-</div>
+    </section>
 
+    <h3 class="section-title">Meet the team</h3>
+    <p class="section-subtitle">
+      Real humans behind the scenes—sales, service, and operations—making sure your experience doesn’t feel like a boss fight.
+    </p>
+
+    <section class="team-grid">
+      <article class="team-card">
+        <div class="top">
+          <img class="avatar" src="/static/person.png" alt="Portrait of Alex Morgan">
+          <div class="team-meta">
+            <p class="team-name">Alex Morgan</p>
+            <p class="team-role">General Manager</p>
+          </div>
+        </div>
+        <div class="body">
+          <p class="mb-0">
+            Alex keeps the whole operation running smoothly—inventory, customer experience, and the “no surprises” promise.
+            If something feels off, Alex is the person who fixes it fast.
+          </p>
+          <div class="contact-row">
+            <a class="contact-chip" href="mailto:alex.morgan@dealerships.example">
+              <span>✉️</span><small>alex.morgan@dealerships.example</small>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <div class="top">
+          <img class="avatar" src="/static/person.png" alt="Portrait of Priya Patel">
+          <div class="team-meta">
+            <p class="team-name">Priya Patel</p>
+            <p class="team-role">Sales & Customer Success</p>
+          </div>
+        </div>
+        <div class="body">
+          <p class="mb-0">
+            Priya’s goal is simple: match you with the right car, not the most expensive one.
+            Expect honest pros/cons and zero pressure—because long-term trust beats short-term wins.
+          </p>
+          <div class="contact-row">
+            <a class="contact-chip" href="mailto:priya.patel@dealerships.example">
+              <span>✉️</span><small>priya.patel@dealerships.example</small>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <div class="top">
+          <img class="avatar" src="/static/person.png" alt="Portrait of Marcus Lee">
+          <div class="team-meta">
+            <p class="team-name">Marcus Lee</p>
+            <p class="team-role">Service Operations Lead</p>
+          </div>
+        </div>
+        <div class="body">
+          <p class="mb-0">
+            Marcus runs inspections and service workflows so every vehicle is road-ready.
+            He’s also the one who translates “mechanic-speak” into plain English.
+          </p>
+          <div class="contact-row">
+            <a class="contact-chip" href="mailto:marcus.lee@dealerships.example">
+              <span>✉️</span><small>marcus.lee@dealerships.example</small>
+            </a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer-note">
+      <strong>Our vibe:</strong> We’d rather lose a sale than sell you the wrong car.  
+      Browse confidently, ask weirdly specific questions, and we’ll help you make a decision you won’t regret in three months.
+    </div>
+  </main>
+</body>
 </html>
