@@ -32,12 +32,8 @@ jobs:
     - name: Run Linter
       run: |
         pwd
-        # Lint only project Python sources; skip vendored dependencies
-        find ./server -type f -name "*.py" \
-          -not -path "*/node_modules/*" \
-          -not -path "*/venv/*" \
-          -not -path "*/.venv/*" \
-          -print0 | xargs -0 --no-run-if-empty flake8
+        # This command finds all Python files recursively and runs flake8 on them
+        find . -name "*.py" -exec flake8 {} +
         echo "Linted all the python files successfully"
 
   lint_js:
@@ -58,8 +54,6 @@ jobs:
 
       - name: Run Linter
         run: |
-          # Lint app JavaScript files and skip dependencies
-          find ./server/database -type f -name "*.js" \
-            -not -path "*/node_modules/*" \
-            -print0 | xargs -0 --no-run-if-empty jshint
+          # This command finds all JavaScript files recursively and runs JSHint on them
+          find ./server/database -name "*.js" -exec jshint {} +
           echo "Linted all the js files successfully"
